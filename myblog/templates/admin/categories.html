@@ -1,0 +1,27 @@
+{% include 'scheme/staticlinks.html' %}
+{% include 'scheme/navbar.html' %}
+{% include 'scheme/favicon.html' %}
+<div class="d-flex flex-column min-vh-100">
+    <div class="container my-5 flex-grow-1">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h2 class="text-center mb-4">Категории | <a href="{% url 'add_category' %}">Добавить</a></h2>
+                {% for category in categories %}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ category.name }}</h3>
+                            <a href="{% url 'edit_category' category.id %}" class="btn btn-primary">Редактировать</a>
+                        <form method="post" action="{% url 'delete_category' category.id %}">
+                            {% csrf_token %}
+                            <input type="submit" value="Удалить" class="btn btn-danger">
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% include 'scheme/footer.html' %}
+</div>
+
+{% include 'scheme/scripts.html' %}

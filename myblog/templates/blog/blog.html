@@ -1,0 +1,138 @@
+{% include 'scheme/staticlinks.html' %}
+{% include 'scheme/navbar.html' %}
+
+{% load static %}
+<body>
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Фитнес Блог</h2>
+            </div>
+            <div class="col-12">
+                <a href="/">Home</a>
+                <a href="{{ request.path }}">Фитнес Блог</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="section-header text-center wow zoomIn" data-wow-delay="0.1s"
+     style="visibility: visible; animation-delay: 0.1s; animation-name: zoomIn;">
+    <p>Блог</p>
+    {% if posts %}
+    <h2>Последние статьи о фитнесе</h2>
+
+    {% endif %}
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form action="{% url 'search' %}" method="get" class="form-inline text-center">
+                <div class="form-group mx-sm-3 mb-2">
+                    <input type="text" name="q" class="form-control" placeholder="Поиск" value="{{ query }}">
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                    <select name="order_by" class="form-control">
+                        <option value="">Сортировать по...</option>
+                        <option value="date">Дата</option>
+                        <option value="popularity">Популярность</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-custom">
+                    <i class="fas fa-search"></i> Поиск
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row blog-page">
+        {% for post in posts %}
+        <div class="col-lg-4 col-md-6 wow fadeInUp custom_item_main">
+            <div class="blog-item">
+                {% if post.image %}
+                <div class="blog-img"><img src="{{ post.image.url }}" alt="{{ post.title }}"></div>
+                {% endif %}
+                <div class="blog-text">
+                    <h2><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h2>
+                    <div class="blog-meta content-gray">
+                        {% if post.category %}
+                        <p><i class="far fa-list-alt"></i>{{ post.category.name }}</p>
+                        {% endif %}
+                        <p><i class="far fa-calendar-alt"></i>{{ post.created_at|date:"d-M-Y" }}</p>
+                        {% if post.comments.count %}
+                        <p><i class="far fa-comments"></i>{{ post.comments.count }}</p>
+                        {% endif %}
+                        <button class="favorite-button" data-post-id="{{ post.id }}"
+                                style="background: none; border: none; margin-left: auto; font-size: 20px; margin-top: -5px;">
+                            {% if user in post.favorited_by.all %}
+                            <img width="15px" src="/media/svg/heart-solid.png" alt="Regular Heart">
+                            {% else %}
+                            <img width="15px" src="/media/svg/heart-regular.png" alt="Solid Heart">
+                            {% endif %}
+                        </button>
+                    </div>
+                    <p class="content-gray">{{ post.content }}</p>
+                </div>
+                <a class="btn" href="{% url 'post_detail' post.id %}">Узнать больше <i class="fa fa-angle-right">
+                </i></a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<script>
+    document.querySelectorAll('.favorite-button').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var postId = this.dataset.postId;
+            var heart = this.querySelector('img');
+
+            if (heart.src.includes('heart-regular.png')) {
+                heart.src = heart.src.replace('heart-regular.png', 'heart-solid.png');
+            } else {
+                heart.src = heart.src.replace('heart-solid.png', 'heart-regular.png');
+            }
+
+            fetch('/favorite_post/' + postId, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    console.log('Error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    });
+
+
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+
+</script>
+{% include 'scheme/footer.html' %}
+{% include 'scheme/scripts.html' %}
+</body>
+
+
+

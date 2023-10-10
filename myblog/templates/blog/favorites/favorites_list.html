@@ -1,0 +1,32 @@
+{% include 'scheme/staticlinks.html' %}
+{% include 'scheme/navbar.html' %}
+{% include 'scheme/favicon.html' %}
+<div class="d-flex flex-column min-vh-100">
+    <div class="container my-5 flex-grow-1">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                {% if favorite_posts %}
+                <h2 class="text-center mb-5">Список избранных</h2>
+                {% else %}
+                <h2 class="text-center mb-5">Список избранных пуст</h2>
+                {% endif %}
+                {% for favorite in favorite_posts %}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title"><a href="{% url 'post_detail' favorite.post.id %}">{{ favorite.post.title }}</a></h3>
+                        <p class="card-text">{{ favorite.post.content }}</p>
+                        <p>
+                            <a href="{% url 'unfavorite_post' favorite.id %}" class="btn btn-danger">Удалить из
+                                избранного</a>
+                        </p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {% include 'scheme/footer.html' %}
+</div>
+
+{% include 'scheme/scripts.html' %}

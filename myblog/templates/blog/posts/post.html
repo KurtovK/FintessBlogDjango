@@ -1,0 +1,154 @@
+{% include 'scheme/staticlinks.html' %}
+{% include 'scheme/navbar.html' %}
+
+<body>
+<div class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Фитнес Блог</h2>
+            </div>
+            <div class="col-12">
+                <a href="">Дом</a> <a href="">Фитнес Блог</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section-header text-center wow zoomIn" data-wow-delay="0.1s"
+     style="visibility: visible; animation-delay: 0.1s; animation-name: zoomIn;">
+    <h2>{{post.title}}</h2>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                {% if post.image %}
+                <div style="text-align:center;">
+                    <img class="card-img-top" src="{{ post.image.url }}" alt="{{ post.title }}">
+                </div>
+                {% endif %}
+                <div class="card-body">
+                    <h2 class="card-title">{{ post.title }}</h2>
+                    <p class="card-text">{{ post.content }}</p>
+                    <p>Автор: {{ post.author.username }}</p>
+                    <p>Дата создания: {{ post.created_at|date:"d-M-Y" }}</p>
+                    {% if post.category %}
+                    <p>Категория: {{ post.category.name }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <section class="gradient-custom">
+                <div class="container my-5 py-5">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-12 col-lg-10 col-xl-8">
+                            <div class="card">
+                                <div class="card-body p-4">
+                                    <h4 class="text-center mb-4 pb-2">Комментарии</h4>
+                                    <div class="row">
+                                        <div class="col">
+                                            {% for comment in comments %}
+                                            {% if not comment.parent_comment %}
+                                            <div class="d-flex flex-start">
+                                                <div class="flex-grow-1 flex-shrink-1">
+                                                    <div>
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <p class="mb-1">
+                                                                {{ comment.name }} <span class="small">- {{ comment.created_at|timesince }} назад</span>
+                                                            </p>
+                                                            {% if request.user.is_superuser %}
+                                                            <a href="{% url 'comment_delete' comment.id %}"
+                                                               class="btn btn-danger btn-sm">Удалить</a>
+                                                            {% endif %}
+                                                        </div>
+                                                        <p class="small mb-0">{{ comment.content }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="comment-form">
+                                                <form method="POST" action="{% url 'comment_create' %}">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="post_id" value="{{ post.id }}">
+                                                    <input type="hidden" name="parent_comment_id"
+                                                           value="{{ comment.id }}">
+                                                    <input type="hidden" name="email" value="{{ user.email }}">
+                                                    <input type="hidden" name="name" value="{{ user.username }}">
+                                                    <div class="d-flex">
+                                                        <textarea name="content" class="form-control"
+                                                                  placeholder="Текст комментария" required></textarea>
+                                                        <button type="submit" class="btn">
+                                                            <i class="fas fa-reply fa-xs"></i><span class="small"> Ответить</span>
+                                                        </button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                            {% if comment.replies.all %}
+                                            {% for reply in comment.replies.all %}
+                                            <div class="d-flex flex-start" style="margin-left: 40px;">
+                                                <div class="flex-grow-1 flex-shrink-1">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <p class="mb-1">
+                                                            Пользователь {{ reply.name }} ответил
+                                                            <span class="small">- {{ reply.created_at|timesince }} назад</span>
+                                                        </p>
+                                                    </div>
+                                                    <p class="small mb-0">{{ reply.content }}</p>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                            {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body p-4">
+                                        <h4 class="text-center mb-4 pb-2">Добавить комментарий</h4>
+                                        <form action="{% url 'add_comment' post.id %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                <label for="name">Имя пользователя</label>
+                                                {% if user.is_authenticated %}
+                                                <input type="text" class="form-control" name="name"
+                                                       value="{{ user.username }}" readonly>
+                                                {% else %}
+                                                <input type="text" class="form-control" id="name" name="name"
+                                                       placeholder="Введите ваше имя">
+                                                {% endif %}
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="email">Почта</label>
+                                                {% if user.is_authenticated %}
+                                                <input type="email" class="form-control" name="email"
+                                                       value="{{ user.email }}" readonly>
+                                                {% else %}
+                                                <input type="email" class="form-control" id="email" name="email">
+                                                {% endif %}
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="content">Комментарий</label>
+                                                <textarea class="form-control" id="content" name="content"
+                                                          rows="3"></textarea>
+                                            </div>
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-primary custom_button">Отправить
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+{% include 'scheme/footer.html' %}
+{% include 'scheme/scripts.html' %}
+</body>

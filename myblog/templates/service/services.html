@@ -1,0 +1,43 @@
+{% include 'scheme/staticlinks.html' %}
+{% include 'scheme/navbar.html' %}
+{% include 'scheme/favicon.html' %}
+<div class="d-flex flex-column min-vh-100">
+    <div class="container my-5 flex-grow-1">
+        <div class="row justify-content-center">
+            {% if services %}
+            <h2 class=" text-center mb-5">Услуги | <a href="{% url 'add_service'%}">Добавить</a></h2>
+            {% else %}
+            <h2 class="text-center mb-5">Услуги отсутствуют | <a href="{% url 'add_service'%}">Добавить</a></h2>
+            {% endif %}
+            <div class="col-md-8">
+                <div class="row">
+                    {% for service in services %}
+                    <div class="col-md-4 mb-2 d-flex justify-content-center">
+                        <div class="card mx-3" style="width: 22rem;">
+                            {% if service.image %}
+                            <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.title }}">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ service.title }}</h5>
+                                <p class="card-text">{{ service.description }}</p>
+                                <p>Автор: {{ service.author.username }}</p>
+                                <p>{{ service.contact_data }}</p>
+                                <div class="text-center">
+                                    {% if request.user == service.author or request.user.is_superuser %}
+                                    <a href="{% url 'edit_service' service.id %}" class="btn">Редактировать</a>
+                                    <a href="{% url 'delete_service' service.id %}" class="btn">Удалить</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'scheme/footer.html' %}
+</div>
+
+{% include 'scheme/scripts.html' %}

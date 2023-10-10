@@ -1,0 +1,42 @@
+{% include 'scheme/staticlinks.html' %}
+{% include 'scheme/navbar.html' %}
+
+<!--fitness_blog_user-->
+
+
+<section class="vh-100 bg-image">
+    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-body p-5">
+                            <h2 class="text-uppercase text-center mb-5">Редактирование профиля</h2>
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {% for field in form %}
+                                <div class="form-outline mb-4">
+                                    <input type="{{ field.field.widget.input_type }}" id="{{ field.auto_id }}"
+                                           class="form-control form-control-lg" name="{{ field.html_name }}"
+                                           value="{{ field.value }}"/>
+                                    <label class="form-label" for="{{ field.auto_id }}">{{ field.label }}</label>
+                                </div>
+                                {% endfor %}
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit" class="btn btn-soft btn-lg font-weight-bold"
+                                            style="font-size:25px">
+                                        Редактировать
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% include 'scheme/footer.html' %}
+{% include 'scheme/scripts.html' %}

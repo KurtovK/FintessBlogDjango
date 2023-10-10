@@ -1,0 +1,32 @@
+{% include 'scheme/staticlinks.html' %}
+{% include 'scheme/navbar.html' %}
+{% include 'scheme/favicon.html' %}
+<div class="d-flex flex-column min-vh-100">
+    <div class="container my-5 flex-grow-1">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                {% if posts %}
+                <h2 class="text-center mb-4">Ваши посты</h2>
+                {% else %}
+                <h2 class="text-center mb-4">Посты отсутствуют</h2>
+                {% endif %}
+                {% for post in posts %}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title"><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h3>
+                        <p class="card-text">{{ post.content }}</p>
+                        <p>
+                            <a href="{% url 'post_edit' post.id %}" class="btn btn-primary">Редактировать</a>
+                            <a href="{% url 'post_delete' post.id %}" class="btn btn-danger">Удалить</a>
+                        </p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {% include 'scheme/footer.html' %}
+</div>
+
+{% include 'scheme/scripts.html' %}

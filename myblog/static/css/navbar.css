@@ -1,0 +1,78 @@
+
+
+.custom_nav_div {
+    display: flex;
+    align-items: center;
+}
+
+.custom_welcome_msg {
+    color: white; /* Зеленый */
+}
+
+.custom_logout_btn {
+    color: white;  /* Красный */
+}
+
+.custom_login_btn, .custom_signup_btn {
+    color: white;  /* Синий */
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+}
+
+a, u {
+  text-decoration: none;
+  color: inherit;
+}
+
+.navbar {
+padding: 15px;
+    background: #343148 !important;
+    z-index: 9999;
+}
+.navbar.nav-sticky {
+  position:fixed;
+  top:0;
+  width:100%;
+  box-shadow:0 2px 5px rgba(0,0,0,.3)
+}
+.navbar .navbar-brand {
+margin: 25px;
+  color:#fff;
+  font-size:45px;
+  line-height:0;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  transition:.5s
+}
+.navbar .navbar-brand span {
+  color:#343148;
+  text-transform:lowercase;
+  transition:.5s
+}
+.navbar.nav-sticky .navbar-brand span {
+  color:#fff
+}
+.navbar .navbar-brand img {
+  max-width:100%;
+  max-height:40px
+}
+.navbar-dark .navbar-nav .nav-link,
+.navbar-dark .navbar-nav .nav-link:focus,
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link.active {
+  padding:10px 10px 8px;
+  color:#fff
+}
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link.active {
+  background:rgba(256,256,256,.1);
+  transition:none
+}
+.navbar .dropdown-menu {
+  margin-top:0;
+  border:0;
+  border-radius:0;
+  background:#f8f9fa
+}

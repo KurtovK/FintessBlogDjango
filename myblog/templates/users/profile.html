@@ -1,0 +1,76 @@
+{% load static %}
+{% include 'scheme/staticlinks.html' %}
+{% include 'scheme/navbar.html' %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Кабинет</title>
+    <style>
+        .btn-info {
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+            color: #fff;
+            width: 100%;
+            border-radius: 25px;
+        }
+        .card-text {
+            font-size: 1.25rem;
+        }
+        .card-title {
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="d-flex flex-column min-vh-100">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        {% if profile.avatar %}
+                        <img src="{{ profile.avatar.url }}" class="rounded-circle" width="150px" alt="User Avatar">
+                        {% else %}
+                        <img src="/media/users/avatars/no_avatar.png" class="rounded-circle" width="150px"
+                             alt="Default Avatar">
+
+                        {% endif %}
+                        <p class="mt-3"><b>Аватар</b></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ profile.user.username }}</h5>
+                        <p class="card-text">{{ profile.user.email }}</p>
+                        <p class="card-text">{{ profile.description }}</p>
+                        <ul class="list-group">
+                            <li class="list-group-item"><strong>Имя:</strong> {{ profile.first_name }}</li>
+                            <li class="list-group-item"><strong>Фамилия:</strong> {{ profile.last_name }}</li>
+                            <li class="list-group-item"><strong>Email:</strong> {{ profile.email }}</li>
+                            <li class="list-group-item"><strong>Мобильный телефон:</strong> {{ profile.mobile_number }}
+                            </li>
+                            <li class="list-group-item"><strong>Адрес:</strong> {{ profile.address_line1 }}
+                            </li>
+                        </ul>
+                        <div class="d-flex justify-content-center mt-3">
+                            <a href="/profile/edit/" class="btn btn-info">Редактировать профиль</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'scheme/footer.html' %}
+{% include 'scheme/scripts.html' %}
+
+</body>
+</html>
+

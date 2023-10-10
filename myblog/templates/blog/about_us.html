@@ -1,0 +1,60 @@
+{% include 'scheme/staticlinks.html' %}
+{% include 'scheme/navbar.html' %}
+{% include 'scheme/favicon.html' %}
+{% load static %}
+
+<section class="py-3 py-md-5 py-xl-8">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-10 col-lg-8">
+                <h3 class="fs-5 mb-2 text-secondary text-uppercase">О нас</h3>
+                <h2 class="display-5 mb-4">Мы стремимся к инновациям, приветствуем новые идеи и создаем культуру
+                    непрерывного обучения.</h2>
+                <a href="{% url 'signup' %}" type="button" class="btn btn-lg btn-primary mb-3 mb-md-4 mb-xl-5">Начать
+                    прямо сейчас</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row gy-3 gy-md-4 gy-lg-0">
+            <div class="col-12 col-lg-6">
+                <div class="card bg-light p-3 m-0">
+                    <div class="row gy-3 gy-md-0 align-items-md-center">
+                        <div class="col-md-5">
+                            <img src="/media/users/exp.png" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-7">
+                            <div class="card-body p-0">
+                                <h2 class="card-title h4 mb-3">Почему выбирают нас?</h2>
+                                <p class="card-text lead">Благодаря многолетнему опыту и глубоким знаниям в области
+                                    фитнеса, мы доказали свою эффективность и стремимся оставаться впереди.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="card bg-light p-3 m-0">
+                    <div class="row gy-3 gy-md-0 align-items-md-center">
+                        <div class="col-md-5">
+                            <img src="/media/users/command.jpg" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-7">
+                            <div class="card-body p-0">
+                                <h2 class="card-title h4 mb-3">Наша команда</h2>
+                                <p class="card-text lead">С командой профессиональных тренеров, диетологов и энтузиастов
+                                    фитнеса, мы преобразуем сложные вызовы в инновационные решения для здоровья и
+                                    фитнеса.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% include 'scheme/footer.html' %}
+{% include 'scheme/scripts.html' %}
